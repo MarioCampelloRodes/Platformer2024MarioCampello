@@ -10,6 +10,8 @@ public class PlayerController : MonoBehaviour
 
     private bool _isGrounded = false;
 
+    private int _jumpNumber = 0;
+
     //La barrabaja indica que la variable es privada
     private Rigidbody2D _playerRB;
 
@@ -42,10 +44,14 @@ public class PlayerController : MonoBehaviour
         {
             _playerRB.velocity = new Vector2(_playerRB.velocity.x, playerJumpForce);
         }
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        
+        else if (Input.GetButtonDown("Jump") && _jumpNumber < 1)
+        {
+            _playerRB.velocity = new Vector2(_playerRB.velocity.x, playerJumpForce);
+            _jumpNumber++;
+        }
+        else if (_isGrounded)
+        {
+            _jumpNumber = 0;
+        }
     }
 }
