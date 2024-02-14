@@ -218,6 +218,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &79547819
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 79547820}
+  m_Layer: 0
+  m_Name: GroundPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &79547820
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 79547819}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -1.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 687572119}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &214476129
 GameObject:
   m_ObjectHideFlags: 0
@@ -4540,6 +4571,7 @@ GameObject:
   - component: {fileID: 519420032}
   - component: {fileID: 519420031}
   - component: {fileID: 519420029}
+  - component: {fileID: 519420033}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -4621,6 +4653,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 437874084}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &519420033
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1dd66e5a6a06e8948a7db67a9823b1d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &538318063
 GameObject:
   m_ObjectHideFlags: 0
@@ -4829,10 +4873,11 @@ Transform:
   m_GameObject: {fileID: 687572118}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -3.5, y: -0.37, z: 0}
+  m_LocalPosition: {x: -3.5, y: -0.483, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 79547820}
   m_Father: {fileID: 34514664}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &687572120
@@ -4847,7 +4892,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 165ebe1a6b638ca4f814e5744882f197, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerSpeed: 3
+  playerSpeed: 6
+  playerJumpForce: 5
+  groundPoint: {fileID: 79547820}
+  whatIsGround:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!70 &687572121
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -5238,7 +5288,7 @@ GameObject:
   - component: {fileID: 1097311514}
   - component: {fileID: 1097311513}
   - component: {fileID: 1097311512}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Groundtilemap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
