@@ -8,23 +8,38 @@ public class PlayerController : MonoBehaviour
 
     public float playerJumpForce = 10f;
 
-    private bool _isGrounded = false;
+    //La barrabaja indica que la variable es privada
+    private bool _isGrounded;
+
+    private bool _isWalledLeft, _isWalledRight;
 
     private int _jumpNumber = 0;
-
-    //La barrabaja indica que la variable es privada
+    
     private Rigidbody2D _playerRB;
 
     public Transform groundPoint;
 
+    public Transform wallPointLeft, wallPointRight;
+
     public LayerMask whatIsGround;
 
-    Vector2 direction;
+    public LayerMask whatIsWall;
+
+    //Referencia al Sprite Rendeder
+    private SpriteRenderer _playerSpriteRenderer;
+    //Referencia al Animator
+    private Animator _anim;
+
     // Start is called before the first frame update
     void Start()
     {
         //Inicializamos el Rigidbody
         _playerRB = GetComponent<Rigidbody2D>();
+
+        //Inicializamos el animator del jugador y el Sprite Renderer
+        _anim = GetComponent<Animator>();
+
+        _playerSpriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
@@ -33,9 +48,14 @@ public class PlayerController : MonoBehaviour
         //Movimiento
         _playerRB.velocity = new Vector2(Input.GetAxis("Horizontal") * playerSpeed, _playerRB.velocity.y);
 
-
         //¿Está en el suelo?
         _isGrounded = Physics2D.OverlapCircle(groundPoint.position, 0.2f, whatIsGround);
+
+        //¿Está tocando la pared?
+        _isWalledLeft = Physics2D.OverlapCircle(wallPointLeft.position, 0.2f, whatIsWall);
+
+        _isWalledRight = Physics2D.OverlapCircle(wallPointRight.position, 0.2f, whatIsWall);
+
         //Modo Dios
         //_playerRB.velocity = new Vector2(Input.GetAxis("Horizontal") * playerSpeed, Input.GetAxis("Vertical") * playerSpeed);
 
@@ -44,14 +64,34 @@ public class PlayerController : MonoBehaviour
         {
             _playerRB.velocity = new Vector2(_playerRB.velocity.x, playerJumpForce);
         }
-        else if (Input.GetButtonDown("Jump") && _jumpNumber < 1)
+        //Doble Salto
+        else if (Input.GetButtonDown("Jump") && _jumpNumber == 0)
         {
             _playerRB.velocity = new Vector2(_playerRB.velocity.x, playerJumpForce);
             _jumpNumber++;
         }
-        else if (_isGrounded)
+        //Salto de Pared
+        if (Input.GetButtonDown("Jump") && _isWalledRight)
+        {
+            _playerRB.velocity = new Vector2(-2f * playerJumpForce, 1f * playerJumpForce);
+        }
+        if (Input.GetButtonDown("Jump") && _isWalledLeft)
+        {
+            _playerRB.velocity = new Vector2(2f * playerJumpForce, 1f * playerJumpForce);
+        }
+        
+        //Cambio de dirección
+
+        //Reseteo de Saltos
+        if (_isGrounded)
         {
             _jumpNumber = 0;
         }
+
+        //Animaciones
+        _anim.SetBool("isGrounded", _isGrounded);
+
+        //Math.Abs devuelve el absoluto de una variable
+        _anim.SetFloat("MoveSpeed", Mathf.Abs(_playerRB.velocity.x));
     }
 }
