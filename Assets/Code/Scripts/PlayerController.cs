@@ -73,14 +73,22 @@ public class PlayerController : MonoBehaviour
         //Salto de Pared
         if (Input.GetButtonDown("Jump") && _isWalledRight)
         {
-            _playerRB.velocity = new Vector2(-2f * playerJumpForce, 1f * playerJumpForce);
+            _playerRB.velocity = new Vector2(-10f * playerJumpForce, 5f * playerJumpForce);
         }
         if (Input.GetButtonDown("Jump") && _isWalledLeft)
         {
-            _playerRB.velocity = new Vector2(2f * playerJumpForce, 1f * playerJumpForce);
+            _playerRB.velocity = new Vector2(10f * playerJumpForce, 2f * playerJumpForce);
         }
         
-        //Cambio de dirección
+        //Cambio de dirección del sprite
+        if(_playerRB.velocity.x < 0)
+        {
+            _playerSpriteRenderer.flipX = false;
+        }
+        else if (_playerRB.velocity.x > 0)
+        {
+            _playerSpriteRenderer.flipX = true;
+        }
 
         //Reseteo de Saltos
         if (_isGrounded)
