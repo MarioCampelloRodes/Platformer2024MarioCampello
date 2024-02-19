@@ -10,17 +10,13 @@ public class TestCamera : MonoBehaviour
     public Transform farBackground, middleBackground;
 
     public float minHeight, maxHeight;
-    //Última posición en X que tuvo el jugador
-    private float _lastXPos;
 
-    //Última posición en X que tuvo el jugador
-    private float _lastYPos;
+    //Última posición del jugador en X y en Y
+    private Vector2 _lastPos;
     // Start is called before the first frame update
     void Start()
     {
-        _lastXPos = target.position.x;
-
-        _lastYPos = target.position.y;
+        _lastPos = transform.position;
     }
 
     // Update is called once per frame
@@ -28,20 +24,18 @@ public class TestCamera : MonoBehaviour
     {
         transform.position = new Vector3(target.position.x, target.position.y, transform.position.z);
 
-        //Variable para conocer cuanto hay que moverse en X
-        float _amountToMoveX = target.position.x - _lastXPos;
+        //Variable para conocer cuanto hay que moverse en X y en Y
+        Vector2 _amountToMove = new Vector2(target.position.x - _lastPos.x, target.position.y - _lastPos.y);
 
-        //Variable para conocer cuanto hay que moverse en X
-        float _amountToMoveY = target.position.y - _lastYPos;
 
         //Restricción entre un mínimo y un máximo para la cámara en y
         transform.position = new Vector3(target.position.x, Mathf.Clamp(transform.position.y, minHeight, maxHeight), transform.position.z);
 
-        farBackground.position += new Vector3(_amountToMoveX, 0f, 0f);
-        middleBackground.position += new Vector3(_amountToMoveX * 0.5f, _amountToMoveY * -0.01f, 0f);
+        farBackground.position += new Vector3(_amountToMove.x, _amountToMove.y, 0f);
+        middleBackground.position += new Vector3(_amountToMove.x * 0.5f, _amountToMove.y * -0.1f, 0f);
 
         //Actualizamos la posición del jugador
-        _lastXPos = target.position.x;
-        _lastYPos = target.position.y;
+        _lastPos.x = target.position.x;
+        _lastPos.y = target.position.y;
     }
 }
