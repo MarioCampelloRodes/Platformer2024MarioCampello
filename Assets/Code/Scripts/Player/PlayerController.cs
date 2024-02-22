@@ -4,44 +4,44 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    //Movimiento Default
     public float playerSpeed = 3f;
-
+    
+    //Saltos
     public float playerJumpForce = 10f;
+    public int jumpNumber = 0;
+    private bool _isGrounded;
 
+    //Saltos de Pared
+    private bool _isWalledLeft, _isWalledRight;
+    public float wallJumpCounterLength;
+    private float _wallJumpCounter;
+
+    //Dash
+    private bool canDash;
+
+    //Knockbacks
     public float knockbackForce = 3f;
-
     public float knockbackCounterLength;
     private float _knockbackCounter;
 
-    //La barrabaja indica que la variable es privada
-    private bool _isGrounded;
-
-    private bool _isWalledLeft, _isWalledRight;
-
-    private int _jumpNumber = 0;
-    
-    private Rigidbody2D _playerRB;
-
+    //Puntos para detectar pared/suelo
     public Transform groundPoint;
-
     public Transform wallPointLeft, wallPointRight;
 
+    //Detector de capas
     public LayerMask whatIsGround;
 
-    public LayerMask whatIsWall;
-
-    //Referencia al Sprite Rendeder
+    //Referencias
+    private Rigidbody2D _playerRB;
     private SpriteRenderer _playerSpriteRenderer;
-    //Referencia al Animator
     private Animator _anim;
 
     // Start is called before the first frame update
     void Start()
     {
-        //Inicializamos el Rigidbody
         _playerRB = GetComponent<Rigidbody2D>();
 
-        //Inicializamos el animator del jugador y el Sprite Renderer
         _anim = GetComponent<Animator>();
 
         _playerSpriteRenderer = GetComponent<SpriteRenderer>();
@@ -51,7 +51,7 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         //Si el contador de knockback se ha vaciado, el jugador recupera el control
-        if (_knockbackCounter <= 0)
+        if (_knockbackCounter <= 0 && _wallJumpCounter <= 0)
         {
             //Movimiento
             _playerRB.velocity = new Vector2(Input.GetAxis("Horizontal") * playerSpeed, _playerRB.velocity.y);
@@ -60,9 +60,9 @@ public class PlayerController : MonoBehaviour
             _isGrounded = Physics2D.OverlapCircle(groundPoint.position, 0.2f, whatIsGround);
 
             //¿Está tocando la pared?
-            _isWalledLeft = Physics2D.OverlapCircle(wallPointLeft.position, 0.2f, whatIsWall);
+            _isWalledLeft = Physics2D.OverlapCircle(wallPointLeft.position, 0.2f, whatIsGround);
 
-            _isWalledRight = Physics2D.OverlapCircle(wallPointRight.position, 0.2f, whatIsWall);
+            _isWalledRight = Physics2D.OverlapCircle(wallPointRight.position, 0.2f, whatIsGround);
 
             //Modo Dios
             //_playerRB.velocity = new Vector2(Input.GetAxis("Horizontal") * playerSpeed, Input.GetAxis("Vertical") * playerSpeed);
@@ -73,19 +73,23 @@ public class PlayerController : MonoBehaviour
                 _playerRB.velocity = new Vector2(_playerRB.velocity.x, playerJumpForce);
             }
             //Doble Salto
-            else if (Input.GetButtonDown("Jump") && _jumpNumber == 0)
+            else if (Input.GetButtonDown("Jump") && jumpNumber == 0)
             {
                 _playerRB.velocity = new Vector2(_playerRB.velocity.x, playerJumpForce);
-                _jumpNumber++;
+                jumpNumber++;
             }
             //Salto de Pared
-            if (Input.GetButtonDown("Jump") && _isWalledRight)
+            if (Input.GetButtonDown("Jump") && _isWalledRight && !_isGrounded)
             {
-                _playerRB.velocity = new Vector2(-10f * playerJumpForce, 5f * playerJumpForce);
+                _wallJumpCounter = wallJumpCounterLength;
+                _playerRB.velocity = new Vector2(-0.9f * playerJumpForce, 0.9f * playerJumpForce);
+                jumpNumber = 0;
             }
-            if (Input.GetButtonDown("Jump") && _isWalledLeft)
+            if (Input.GetButtonDown("Jump") && _isWalledLeft && !_isGrounded)
             {
-                _playerRB.velocity = new Vector2(10f * playerJumpForce, 2f * playerJumpForce);
+                _wallJumpCounter = wallJumpCounterLength;
+                _playerRB.velocity = new Vector2(0.9f * playerJumpForce, 0.9f * playerJumpForce);
+                jumpNumber = 0;
             }
 
             //Cambio de dirección del sprite
@@ -100,21 +104,30 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            _knockbackCounter -= Time.deltaTime;
+            if(_knockbackCounter > 0)
+            {
+                _knockbackCounter -= Time.deltaTime;
 
-            if (!_playerSpriteRenderer.flipX)
-            {
-                _playerRB.velocity = new Vector2(knockbackForce, _playerRB.velocity.y);
+                if (!_playerSpriteRenderer.flipX)
+                {
+                    _playerRB.velocity = new Vector2(knockbackForce, _playerRB.velocity.y);
+                }
+                else
+                {
+                    _playerRB.velocity = new Vector2(-knockbackForce, _playerRB.velocity.y);
+                }
             }
-            else
+
+            if (_wallJumpCounter > 0)
             {
-                _playerRB.velocity = new Vector2(-knockbackForce, _playerRB.velocity.y);
+                _wallJumpCounter -= Time.deltaTime;
             }
+            
         }
         //Reseteo de Saltos
         if (_isGrounded)
         {
-            _jumpNumber = 0;
+            jumpNumber = 0;
         }
 
         //Animaciones

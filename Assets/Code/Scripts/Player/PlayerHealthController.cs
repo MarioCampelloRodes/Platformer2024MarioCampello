@@ -7,7 +7,7 @@ public class PlayerHealthController : MonoBehaviour
     [HideInInspector] public int currentHealth;
     public int maxHealth;
 
-    public float invincibleCounterLength;
+    public float invincibleCounterLength = 0.25f;
     private float _invincibleCounter;
 
     private UIController _uIRef;
@@ -58,17 +58,15 @@ public class PlayerHealthController : MonoBehaviour
             }
             else
             {
+                _invincibleCounter = invincibleCounterLength;
+
                 _spriteRendererRef.color = new Color(255f, 127f, 127f, 0.7f);
 
                 _pCRef.Knockback();
 
-                _invincibleCounter = invincibleCounterLength;
+                _pCRef.jumpNumber = 0;
             }
-                
-
             _uIRef.UpdateHealth();
         }
-        
-
     }
 }
