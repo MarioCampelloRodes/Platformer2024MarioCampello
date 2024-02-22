@@ -168,6 +168,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerSpeed: 8
   playerJumpForce: 12
+  knockbackForce: 10
+  knockbackCounterLength: 0.25
   groundPoint: {fileID: 1838125212152150749}
   wallPointLeft: {fileID: 2337075593819611484}
   wallPointRight: {fileID: 3157639321890550940}
@@ -191,6 +193,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentHealth: 0
   maxHealth: 3
+  invincibleCounterLength: 0
 --- !u!95 &6365179721459431673
 Animator:
   serializedVersion: 5

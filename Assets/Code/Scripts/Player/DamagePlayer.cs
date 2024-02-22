@@ -18,5 +18,4 @@ public class DamagePlayer : MonoBehaviour
             collision.GetComponent<PlayerHealthController>().DealWithDamage();
         }
     }
-
 }
