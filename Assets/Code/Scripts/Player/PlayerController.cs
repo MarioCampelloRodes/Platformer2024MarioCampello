@@ -8,6 +8,11 @@ public class PlayerController : MonoBehaviour
 
     public float playerJumpForce = 10f;
 
+    public float knockbackForce = 3f;
+
+    public float knockbackCounterLength;
+    private float _knockbackCounter;
+
     //La barrabaja indica que la variable es privada
     private bool _isGrounded;
 
@@ -101,5 +106,13 @@ public class PlayerController : MonoBehaviour
 
         //Math.Abs devuelve el absoluto de una variable
         _anim.SetFloat("MoveSpeed", Mathf.Abs(_playerRB.velocity.x));
+    }
+
+    public void Knockback()
+    {
+        _playerRB.velocity = new Vector2(0f, knockbackForce);
+        _anim.SetTrigger("IsHurt");
+
+
     }
 }

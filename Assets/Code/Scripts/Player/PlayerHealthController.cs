@@ -8,12 +8,16 @@ public class PlayerHealthController : MonoBehaviour
     public int maxHealth;
 
     private UIController _uIRef;
+
+    private PlayerController _pCRef;
     // Start is called before the first frame update
     void Start()
     {
         currentHealth = maxHealth;
 
         _uIRef = GameObject.Find("Canvas").GetComponent<UIController>();
+
+        _pCRef = GetComponent<PlayerController>();
     }
 
     // Update is called once per frame
@@ -26,11 +30,13 @@ public class PlayerHealthController : MonoBehaviour
     {
         currentHealth--;
 
-        if(currentHealth <= 0)
+        if (currentHealth <= 0)
         {
             currentHealth = 0; //Por si se queda en negativo
             gameObject.SetActive(false);
         }
+        else
+            _pCRef.Knockback();
 
         _uIRef.UpdateHealth();
     }
