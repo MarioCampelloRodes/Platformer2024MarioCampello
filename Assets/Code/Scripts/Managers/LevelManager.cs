@@ -18,6 +18,7 @@ public class LevelManager : MonoBehaviour
         _uIRef = GameObject.Find("Canvas").GetComponent<UIController>();
         _pHCRef = GameObject.Find("Player").GetComponent<PlayerHealthController>();
     }
+
     public void RespawnPlayer()
     {
         StartCoroutine(RespawnPlayerCO());

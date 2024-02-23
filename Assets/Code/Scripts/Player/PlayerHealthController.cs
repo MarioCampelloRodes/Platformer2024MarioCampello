@@ -7,7 +7,7 @@ public class PlayerHealthController : MonoBehaviour
     [HideInInspector] public int currentHealth;
     public int maxHealth;
 
-    public float invincibleCounterLength = 0.25f;
+    public float invincibleCounterLength = 1;
     private float _invincibleCounter;
 
     private UIController _uIRef;

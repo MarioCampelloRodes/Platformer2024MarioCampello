@@ -5,10 +5,10 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     //Movimiento Default
-    public float playerSpeed = 3f;
+    public float playerSpeed;
     
     //Saltos
-    public float playerJumpForce = 10f;
+    public float playerJumpForce;
     public int jumpNumber = 0;
     private bool _isGrounded;
 
@@ -18,7 +18,11 @@ public class PlayerController : MonoBehaviour
     private float _wallJumpCounter;
 
     //Dash
-    private bool canDash;
+    private bool _isDashing;
+    private bool _canDash = true;
+    public float dashSpeed;
+    public float dashTime;
+    public float dashCooldown;
 
     //Knockbacks
     public float knockbackForce = 3f;
@@ -51,7 +55,7 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         //Si el contador de knockback se ha vaciado, el jugador recupera el control
-        if (_knockbackCounter <= 0 && _wallJumpCounter <= 0)
+        if (_knockbackCounter <= 0 && _wallJumpCounter <= 0 && !_isDashing)
         {
             //Movimiento
             _playerRB.velocity = new Vector2(Input.GetAxis("Horizontal") * playerSpeed, _playerRB.velocity.y);
@@ -63,9 +67,6 @@ public class PlayerController : MonoBehaviour
             _isWalledLeft = Physics2D.OverlapCircle(wallPointLeft.position, 0.2f, whatIsGround);
 
             _isWalledRight = Physics2D.OverlapCircle(wallPointRight.position, 0.2f, whatIsGround);
-
-            //Modo Dios
-            //_playerRB.velocity = new Vector2(Input.GetAxis("Horizontal") * playerSpeed, Input.GetAxis("Vertical") * playerSpeed);
 
             //Salto
             if (Input.GetButtonDown("Jump") && _isGrounded)
@@ -90,6 +91,12 @@ public class PlayerController : MonoBehaviour
                 _wallJumpCounter = wallJumpCounterLength;
                 _playerRB.velocity = new Vector2(0.9f * playerJumpForce, 0.9f * playerJumpForce);
                 jumpNumber = 0;
+            }
+
+            //Dash
+            if (Input.GetKeyDown(KeyCode.LeftShift) && _canDash)
+            {
+                Dash();
             }
 
             //Cambio de dirección del sprite
@@ -122,7 +129,6 @@ public class PlayerController : MonoBehaviour
             {
                 _wallJumpCounter -= Time.deltaTime;
             }
-            
         }
         //Reseteo de Saltos
         if (_isGrounded)
@@ -143,5 +149,36 @@ public class PlayerController : MonoBehaviour
 
         _playerRB.velocity = new Vector2(0f, knockbackForce);
         _anim.SetTrigger("IsHurt");
+    }
+
+    void Dash()
+    {
+        StartCoroutine("DashCO");
+    }
+
+    private IEnumerator DashCO()
+    {
+        _isDashing = true;
+        _canDash = false;
+        float rbGravity = _playerRB.gravityScale;
+        _playerRB.gravityScale = 0f;
+        if(_isWalledLeft)
+            _playerRB.velocity = new Vector2(1.5f * dashSpeed, 0f);
+        else if(_isWalledRight)
+            _playerRB.velocity = new Vector2(-1.5f * dashSpeed, 0f);
+        else
+        {
+            if (_playerSpriteRenderer.flipX)
+                _playerRB.velocity = new Vector2(dashSpeed, 0f);
+            if (!_playerSpriteRenderer.flipX)
+                _playerRB.velocity = new Vector2(-dashSpeed, 0f);
+        }
+        
+        _anim.SetTrigger("IsDashing");
+        yield return new WaitForSeconds(dashTime);
+        _isDashing = false;
+        _playerRB.gravityScale = rbGravity;
+        yield return new WaitForSeconds(dashCooldown);
+        _canDash = true;
     }
 }
