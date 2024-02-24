@@ -32,6 +32,7 @@ public class LevelManager : MonoBehaviour
 
         _pCRef.gameObject.SetActive(true);
         _pCRef.gameObject.transform.position = _cpRef.spawnPoint;
+        _pCRef.canDash = true;
         _pHCRef.currentHealth = _pHCRef.maxHealth;
         _uIRef.UpdateHealth();
         

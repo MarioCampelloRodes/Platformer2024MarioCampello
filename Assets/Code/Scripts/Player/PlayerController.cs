@@ -19,7 +19,7 @@ public class PlayerController : MonoBehaviour
 
     //Dash
     private bool _isDashing;
-    private bool _canDash = true;
+    public bool canDash = true;
     public float dashSpeed;
     public float dashTime;
     public float dashCooldown;
@@ -94,7 +94,7 @@ public class PlayerController : MonoBehaviour
             }
 
             //Dash
-            if (Input.GetKeyDown(KeyCode.LeftShift) && _canDash)
+            if (Input.GetKeyDown(KeyCode.LeftShift) && canDash)
             {
                 Dash();
             }
@@ -159,7 +159,7 @@ public class PlayerController : MonoBehaviour
     private IEnumerator DashCO()
     {
         _isDashing = true;
-        _canDash = false;
+        canDash = false;
         float rbGravity = _playerRB.gravityScale;
         _playerRB.gravityScale = 0f;
         if(_isWalledLeft)
@@ -179,6 +179,6 @@ public class PlayerController : MonoBehaviour
         _isDashing = false;
         _playerRB.gravityScale = rbGravity;
         yield return new WaitForSeconds(dashCooldown);
-        _canDash = true;
+        canDash = true;
     }
 }
