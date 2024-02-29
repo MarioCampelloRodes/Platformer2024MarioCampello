@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    #region VARIABLES Y REFERENCIAS
+
     //Movimiento Default
     public float playerSpeed;
     
@@ -29,6 +31,9 @@ public class PlayerController : MonoBehaviour
     public float knockbackCounterLength;
     private float _knockbackCounter;
 
+    //Rebotes
+    public float bounceForce;
+
     //Puntos para detectar pared/suelo
     public Transform groundPoint;
     public Transform wallPointLeft, wallPointRight;
@@ -41,6 +46,9 @@ public class PlayerController : MonoBehaviour
     private SpriteRenderer _playerSpriteRenderer;
     private Animator _anim;
 
+    #endregion
+
+    #region METODOS DE UNITY
     // Start is called before the first frame update
     void Start()
     {
@@ -142,13 +150,20 @@ public class PlayerController : MonoBehaviour
         //Math.Abs devuelve el absoluto de una variable
         _anim.SetFloat("MoveSpeed", Mathf.Abs(_playerRB.velocity.x));
     }
+    #endregion
 
+    #region METODOS PROPIOS
     public void Knockback()
     {
         _knockbackCounter = knockbackCounterLength;
 
         _playerRB.velocity = new Vector2(0f, knockbackForce);
         _anim.SetTrigger("IsHurt");
+    }
+
+    public void Bounce()
+    {
+        _playerRB.velocity = new Vector2(_playerRB.velocity.x, bounceForce);
     }
 
     void Dash()
@@ -181,4 +196,5 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(dashCooldown);
         canDash = true;
     }
+    #endregion
 }
