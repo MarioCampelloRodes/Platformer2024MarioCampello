@@ -35,6 +35,5 @@ public class LevelManager : MonoBehaviour
         _pCRef.canDash = true;
         _pHCRef.currentHealth = _pHCRef.maxHealth;
         _uIRef.UpdateHealth();
-        
     }
 }

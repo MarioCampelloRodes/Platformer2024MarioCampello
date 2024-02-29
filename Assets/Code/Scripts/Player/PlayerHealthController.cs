@@ -14,9 +14,13 @@ public class PlayerHealthController : MonoBehaviour
 
     private PlayerController _pCRef;
 
+    private Rigidbody2D _rBRef;
+
     private SpriteRenderer _spriteRendererRef;
 
     private LevelManager _lMRef;
+
+    private Animator _animRef;
     // Start is called before the first frame update
     void Start()
     {
@@ -26,9 +30,13 @@ public class PlayerHealthController : MonoBehaviour
 
         _pCRef = GetComponent<PlayerController>();
 
+        _rBRef = GetComponent<Rigidbody2D>();
+
         _spriteRendererRef = GetComponent<SpriteRenderer>();
 
         _lMRef = GameObject.Find("LevelManager").GetComponent<LevelManager>();
+
+        _animRef = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -54,7 +62,8 @@ public class PlayerHealthController : MonoBehaviour
             if (currentHealth <= 0)
             {
                 currentHealth = 0; //Por si se queda en negativo
-                _lMRef.RespawnPlayer();
+
+                Death();
             }
             else
             {
@@ -68,5 +77,21 @@ public class PlayerHealthController : MonoBehaviour
             }
             _uIRef.UpdateHealth();
         }
+    }
+
+    private void Death()
+    {
+        StartCoroutine("DeathCO");
+    }
+
+    private IEnumerator DeathCO()
+    {
+        yield return new WaitUntil(() =>_pCRef.isGrounded);
+
+        _animRef.SetTrigger("IsDeath");
+
+        yield return new WaitForSeconds(1f);
+
+        _lMRef.RespawnPlayer();
     }
 }
