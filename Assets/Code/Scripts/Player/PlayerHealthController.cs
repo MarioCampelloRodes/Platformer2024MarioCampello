@@ -51,6 +51,11 @@ public class PlayerHealthController : MonoBehaviour
         {
             _spriteRendererRef.color = Color.white;
         }
+
+        if(currentHealth <= 0)
+        {
+            Death();
+        }
     }
 
     public void DealWithDamage()
@@ -86,6 +91,8 @@ public class PlayerHealthController : MonoBehaviour
 
     private IEnumerator DeathCO()
     {
+        _pCRef.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(0f, _pCRef.gameObject.GetComponent<Rigidbody2D>().velocity.y);
+
         yield return new WaitUntil(() =>_pCRef.isGrounded);
 
         _animRef.SetTrigger("IsDeath");
