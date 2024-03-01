@@ -170,6 +170,7 @@ MonoBehaviour:
   playerSpeed: 8
   playerJumpForce: 12
   jumpNumber: 0
+  isGrounded: 0
   wallJumpCounterLength: 0.25
   canDash: 1
   dashSpeed: 24
@@ -199,6 +200,7 @@ MonoBehaviour:
   currentHealth: 0
   maxHealth: 3
   invincibleCounterLength: 1
+  playerDeath: {fileID: 3725493200133938079, guid: da4e5f2d0567c604597f9666a7c5f52e, type: 3}
 --- !u!95 &6365179721459431673
 Animator:
   serializedVersion: 5
@@ -347,7 +349,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.063252926, y: -0.19698858}
+  m_Offset: {x: 0.038235784, y: -0.25}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -358,7 +360,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.6855402, y: 0.39397717}
+  m_Size: {x: 0.53581786, y: 0.5}
   m_EdgeRadius: 0
 --- !u!114 &3174702381808342433
 MonoBehaviour:

@@ -9682,9 +9682,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3230834909644839544, guid: eca9fed93f597744d879247ea0512f49, type: 3}
+      propertyPath: damageTime
+      value: 1.5
+      objectReference: {fileID: 0}
     - target: {fileID: 7226563862387644220, guid: eca9fed93f597744d879247ea0512f49, type: 3}
       propertyPath: m_Name
       value: EnemySlime
+      objectReference: {fileID: 0}
+    - target: {fileID: 7226563862387644220, guid: eca9fed93f597744d879247ea0512f49, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -9747,22 +9755,6 @@ PrefabInstance:
     - target: {fileID: 5482898449313581739, guid: 7f85d8041bd82cf4eba74ee49b0b2ac6, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6159263258578502145, guid: 7f85d8041bd82cf4eba74ee49b0b2ac6, type: 3}
-      propertyPath: m_Size.x
-      value: 0.53581786
-      objectReference: {fileID: 0}
-    - target: {fileID: 6159263258578502145, guid: 7f85d8041bd82cf4eba74ee49b0b2ac6, type: 3}
-      propertyPath: m_Size.y
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6159263258578502145, guid: 7f85d8041bd82cf4eba74ee49b0b2ac6, type: 3}
-      propertyPath: m_Offset.x
-      value: 0.038235784
-      objectReference: {fileID: 0}
-    - target: {fileID: 6159263258578502145, guid: 7f85d8041bd82cf4eba74ee49b0b2ac6, type: 3}
-      propertyPath: m_Offset.y
-      value: -0.25
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

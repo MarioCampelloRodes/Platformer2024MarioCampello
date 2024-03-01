@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerHealthController : MonoBehaviour
 {
-    [HideInInspector] public int currentHealth;
+    public int currentHealth;
     public int maxHealth;
 
     public float invincibleCounterLength = 1;
@@ -21,6 +21,8 @@ public class PlayerHealthController : MonoBehaviour
     private LevelManager _lMRef;
 
     private Animator _animRef;
+
+    public GameObject playerDeath;
     // Start is called before the first frame update
     void Start()
     {
@@ -54,6 +56,8 @@ public class PlayerHealthController : MonoBehaviour
 
         if(currentHealth <= 0)
         {
+            _invincibleCounter = invincibleCounterLength;
+
             Death();
         }
     }
@@ -67,6 +71,8 @@ public class PlayerHealthController : MonoBehaviour
             if (currentHealth <= 0)
             {
                 currentHealth = 0; //Por si se queda en negativo
+
+                _invincibleCounter = invincibleCounterLength;
 
                 Death();
             }
@@ -95,10 +101,14 @@ public class PlayerHealthController : MonoBehaviour
 
         yield return new WaitUntil(() =>_pCRef.isGrounded);
 
-        _animRef.SetTrigger("IsDeath");
+        _lMRef.RespawnPlayer();
+
+        Instantiate(playerDeath, transform.position, transform.rotation);
+
+        //_animRef.SetTrigger("IsDeath");
 
         yield return new WaitForSeconds(1f);
 
-        _lMRef.RespawnPlayer();
+        
     }
 }
