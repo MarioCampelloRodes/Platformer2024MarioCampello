@@ -2,17 +2,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class UIController : MonoBehaviour
 {
     public Image heart1, heart2, heart3;
     public Sprite fullHeart, emptyHeart;
 
+    public TextMeshProUGUI gemText;
+
     private PlayerHealthController _pHRef;
+
+    private LevelManager _lMRef;
     // Start is called before the first frame update
     void Start()
     {
         _pHRef = GameObject.Find("Player").GetComponent<PlayerHealthController>();
+
+        _lMRef = GameObject.Find("LevelManager").GetComponent<LevelManager>();
+
+        UpdateGemCount();
     }
 
     public void UpdateHealth()
@@ -58,5 +67,10 @@ public class UIController : MonoBehaviour
                 break;
             }
         }
+    }
+
+    public void UpdateGemCount()
+    {
+        gemText.text = _lMRef.gemCount.ToString();
     }
 }

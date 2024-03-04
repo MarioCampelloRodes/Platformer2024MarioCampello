@@ -6,6 +6,8 @@ public class LevelManager : MonoBehaviour
 {
     public float timeForRespawn = 2f;
 
+    public int gemCount;
+
     private PlayerController _pCRef;
     private CheckpointController _cpRef;
     private UIController _uIRef;
