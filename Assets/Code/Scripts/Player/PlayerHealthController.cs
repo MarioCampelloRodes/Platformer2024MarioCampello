@@ -90,6 +90,16 @@ public class PlayerHealthController : MonoBehaviour
         }
     }
 
+    public void HealPlayer()
+    {
+        if(currentHealth < maxHealth)
+        {
+            currentHealth++;
+        }
+
+        _uIRef.UpdateHealth();
+    }
+
     private void Death()
     {
         StartCoroutine("DeathCO");

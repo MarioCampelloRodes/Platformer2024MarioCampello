@@ -82,12 +82,16 @@ public class PlayerController : MonoBehaviour
             if (Input.GetButtonDown("Jump") && isGrounded)
             {
                 _playerRB.velocity = new Vector2(_playerRB.velocity.x, playerJumpForce);
+
+                AudioManager.aMRef.PlaySFX(10);
             }
             //Doble Salto
             else if (Input.GetButtonDown("Jump") && jumpNumber == 0)
             {
                 _playerRB.velocity = new Vector2(_playerRB.velocity.x, playerJumpForce);
                 jumpNumber++;
+
+                AudioManager.aMRef.PlaySFX(10);
             }
             //Salto de Pared
             if (Input.GetButtonDown("Jump") && _isWalledRight && !isGrounded)
@@ -95,12 +99,16 @@ public class PlayerController : MonoBehaviour
                 _wallJumpCounter = wallJumpCounterLength;
                 _playerRB.velocity = new Vector2(-0.9f * playerJumpForce, 0.9f * playerJumpForce);
                 jumpNumber = 0;
+
+                AudioManager.aMRef.PlaySFX(10);
             }
             if (Input.GetButtonDown("Jump") && _isWalledLeft && !isGrounded)
             {
                 _wallJumpCounter = wallJumpCounterLength;
                 _playerRB.velocity = new Vector2(0.9f * playerJumpForce, 0.9f * playerJumpForce);
                 jumpNumber = 0;
+
+                AudioManager.aMRef.PlaySFX(10);
             }
 
             //Dash
