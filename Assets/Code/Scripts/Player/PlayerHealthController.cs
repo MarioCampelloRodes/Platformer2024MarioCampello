@@ -68,6 +68,8 @@ public class PlayerHealthController : MonoBehaviour
         {
             currentHealth--;
 
+            AudioManager.aMRef.PlaySFX(9);
+
             if (currentHealth <= 0)
             {
                 currentHealth = 0; //Por si se queda en negativo
@@ -98,6 +100,8 @@ public class PlayerHealthController : MonoBehaviour
         }
 
         _uIRef.UpdateHealth();
+
+        AudioManager.aMRef.PlaySFX(7);
     }
 
     private void Death()
@@ -111,6 +115,8 @@ public class PlayerHealthController : MonoBehaviour
 
         yield return new WaitUntil(() =>_pCRef.isGrounded);
 
+        AudioManager.aMRef.PlaySFX(8);
+
         _lMRef.RespawnPlayer();
 
         Instantiate(playerDeath, transform.position, transform.rotation);
@@ -118,7 +124,5 @@ public class PlayerHealthController : MonoBehaviour
         //_animRef.SetTrigger("IsDeath");
 
         yield return new WaitForSeconds(1f);
-
-        
     }
 }

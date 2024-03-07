@@ -31,6 +31,9 @@ public class Pickup : MonoBehaviour
                 _lMRef.gemCount += 100;
                 _uIRef.UpdateGemCount();
                 _isCollected = true;
+
+                AudioManager.aMRef.PlaySFX(6);
+
                 Instantiate(pickupEffect, transform.position, transform.rotation);
                 Destroy(gameObject);
             }

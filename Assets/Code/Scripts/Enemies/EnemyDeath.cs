@@ -9,6 +9,7 @@ public class EnemyDeath : MonoBehaviour
     
     public void EnemyDeathController()
     {
+        AudioManager.aMRef.PlaySFX(3);
         transform.gameObject.SetActive(false);
         Instantiate(deathEffect, transform.GetChild(0).position, transform.GetChild(0).rotation);
     }
