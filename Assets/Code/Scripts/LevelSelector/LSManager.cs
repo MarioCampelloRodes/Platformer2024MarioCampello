@@ -5,11 +5,14 @@ using UnityEngine.SceneManagement;
 
 public class LSManager : MonoBehaviour
 {
-    public LSPlayer lSPRef;
+    private LSPlayer _lSPRef;
+
+    private LSUIController _lSUICRef;
     // Start is called before the first frame update
     void Start()
     {
-        
+        _lSPRef = GameObject.Find("LSPlayer").GetComponent<LSPlayer>();
+        _lSUICRef = GameObject.Find("LSCanvas").GetComponent<LSUIController>();
     }
 
     // Update is called once per frame
@@ -20,13 +23,15 @@ public class LSManager : MonoBehaviour
 
     public void LoadLevel()
     {
-
+        StartCoroutine(LoadLevelCO());
     }
 
     private IEnumerator LoadLevelCO()
     {
+        _lSUICRef.FadeToBlack();
+
         yield return new WaitForSeconds(1f);
 
-        SceneManager.LoadScene("Game");
+        SceneManager.LoadScene(_lSPRef.currentPoint.levelToLoad);
     }
 }

@@ -6,5 +6,5 @@ public class MapPoint : MonoBehaviour
 {
     public MapPoint up, right, down, left;
     public bool isLevel;
-    // Start is called before the first frame update
+    public string levelToLoad;
 }

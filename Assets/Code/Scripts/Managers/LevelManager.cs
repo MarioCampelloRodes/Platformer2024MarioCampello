@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
 {
@@ -38,5 +39,17 @@ public class LevelManager : MonoBehaviour
         _uIRef.UpdateHealth();
 
         AudioManager.aMRef.PlaySFX(11);
+    }
+
+    public void ExitLevel()
+    {
+        StartCoroutine(ExitLevelCO());
+    }
+
+    private IEnumerator ExitLevelCO()
+    {
+        yield return new WaitForSeconds(2f);
+
+        SceneManager.LoadScene("LevelSelector");
     }
 }

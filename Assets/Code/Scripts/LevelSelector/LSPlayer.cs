@@ -8,11 +8,11 @@ public class LSPlayer : MonoBehaviour
 
     public float moveSpeed;
 
-
+    private LSManager _lSMRef;
     // Start is called before the first frame update
     void Start()
     {
-        
+        _lSMRef = GameObject.Find("LSManager").GetComponent<LSManager>();
     }
 
     // Update is called once per frame
@@ -56,7 +56,7 @@ public class LSPlayer : MonoBehaviour
             
             if (currentPoint.isLevel && Input.GetButtonDown("Jump"))
             {
-                Debug.Log("Cambiamos el nivel");
+                _lSMRef.LoadLevel();
             }
         }
     }
