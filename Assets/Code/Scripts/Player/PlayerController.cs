@@ -31,15 +31,15 @@ public class PlayerController : MonoBehaviour
     public float knockbackCounterLength;
     private float _knockbackCounter;
 
-    //Rebotes
-    public float bounceForce;
-
     //Puntos para detectar pared/suelo
     public Transform groundPoint;
     public Transform wallPointLeft, wallPointRight;
 
     //Detector de capas
     public LayerMask whatIsGround;
+
+    //Interacciones
+    public bool canInteract = false;
 
     //Referencias
     private PlayerHealthController _pHCRef;
@@ -171,7 +171,7 @@ public class PlayerController : MonoBehaviour
         _anim.SetTrigger("IsHurt");
     }
 
-    public void Bounce()
+    public void Bounce(float bounceForce)
     {
         _playerRB.velocity = new Vector2(_playerRB.velocity.x, bounceForce);
     }
